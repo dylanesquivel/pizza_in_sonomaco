@@ -199,10 +199,8 @@
                 totalDoughWeight += levainWeight; 
 
                 // Calculate flour
-                const flour = totalDoughWeight / (1 + hydration) - LevainFlour; 
-
-                // Calculate water 
-                const water = totalDoughWeight - flour - levainWater;
+                const flour = totalDoughWeight / (1 + hydration); 
+                const water = totalDoughWeight - flour;
 
                 // Calculate levain flour and water
                 const levainFlour = levainWeight / (1 + levainHydration); 
@@ -213,3 +211,5 @@
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('result').style.display = 'block';
                 document.getElementById('result').innerHTML = `
+                    <p>Total
+                    
