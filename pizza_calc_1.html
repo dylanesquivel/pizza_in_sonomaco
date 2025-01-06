@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Dough Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .calculator h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Pizza Dough Calculator</h1>
+        <div class="form-group">
+            <label for="pizzaSize">Pizza Size (in inches):</label>
+            <input type="number" id="pizzaSize" placeholder="Enter pizza size">
+        </div>
+        <div class="form-group">
+            <label for="hydration">Dough Hydration (%):</label>
+            <input type="number" id="hydration" placeholder="Enter hydration percentage">
+        </div>
+        <div class="form-group">
+            <label for="thickness">Dough Thickness (oz/sq inch):</label>
+            <input type="number" id="thickness" placeholder="Enter thickness">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Number of Pizzas:</label>
+            <input type="number" id="quantity" placeholder="Enter number of pizzas">
+        </div>
+        <div class="form-group">
+            <label for="levain">Sourdough Levain (% of flour weight):</label>
+            <input type="number" id="levain" placeholder="Enter levain percentage">
+        </div>
+        <div class="form-group">
+            <label for="wholeWheat">Whole Wheat Flour (% of total flour):</label>
+            <input type="number" id="wholeWheat" placeholder="Enter whole wheat percentage">
+        </div>
+        <div class="form-group">
+            <button onclick="calculateDough()">Calculate</button>
+        </div>
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function calculateDough() {
+            const pizzaSize = parseFloat(document.getElementById('pizzaSize').value);
+            const hydration = parseFloat(document.getElementById('hydration').value);
+            const thickness = parseFloat(document.getElementById('thickness').value);
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const levainPercentage = parseFloat(document.getElementById('levain').value);
+            const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value);
+
+            if (isNaN(pizzaSize) || isNaN(hydration) || isNaN(thickness) || isNaN(quantity) || isNaN(levainPercentage) || isNaN(wholeWheatPercentage)) {
+                alert('Please fill in all fields with valid numbers.');
+                return;
+            }
+
+            const radius = pizzaSize / 2;
+            const area = Math.PI * radius * radius; // Area in square inches
+            const doughWeightPerPizza = area * thickness; // Weight in ounces
+            const totalDoughWeight = doughWeightPerPizza * quantity;
+
+            const flour = totalDoughWeight / (1 + hydration / 100);
+            const water = totalDoughWeight - flour;
+            const levain = (levainPercentage / 100) * flour;
+            const adjustedFlour = flour - levain;
+            const adjustedWater = water - levain;
+
+            const wholeWheatFlour = (wholeWheatPercentage / 100) * adjustedFlour;
+            const whiteFlour = adjustedFlour - wholeWheatFlour;
+
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').innerHTML = `
+                <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} oz</p>
+                <p>Flour: ${adjustedFlour.toFixed(2)} oz (White: ${whiteFlour.toFixed(2)} oz, Whole Wheat: ${wholeWheatFlour.toFixed(2)} oz)</p>
+                <p>Water: ${adjustedWater.toFixed(2)} oz</p>
+                <p>Sourdough Levain: ${levain.toFixed(2)} oz</p>
+            `;
+        }
+    </script>
+</body>
+</html>
