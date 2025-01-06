@@ -18,8 +18,8 @@
         }
         .calculator {
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 30px;
+            border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
@@ -39,15 +39,22 @@
         }
         .form-group input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
         }
         .form-group button {
             width: 100%;
-            padding: 10px;
-            background-color: #28a745;
+            padding: 12px;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 4px;
@@ -55,13 +62,13 @@
             cursor: pointer;
         }
         .form-group button:hover {
-            background-color: #218838;
+            background-color: #45a049;
         }
         .result {
             margin-top: 20px;
-            padding: 10px;
+            padding: 15px;
             background: #e9ecef;
-            border-radius: 4px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -85,16 +92,15 @@
             <input type="number" id="quantity" placeholder="Enter number of pizzas">
         </div>
         <div class="form-group">
-            <label for="levainWeight">Levain Weight (grams):</label>
-            <input type="number" id="levainWeight" placeholder="Enter levain weight in grams">
+            <label for="flourType">Flour Type:</label>
+            <select id="flourType">
+                <option value="bread">Bread Flour</option>
+                <option value="allPurpose">All-Purpose Flour</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="levainHydration">Levain Hydration (%):</label>
-            <input type="number" id="levainHydration" placeholder="Enter levain hydration percentage (e.g., 100)">
-        </div>
-        <div class="form-group">
-            <label for="wholeWheat">Whole Wheat Flour (% of total flour):</label>
-            <input type="number" id="wholeWheat" placeholder="Enter whole wheat percentage">
+            <label for="saltPercentage">Salt Percentage (% of dough weight):</label>
+            <input type="number" id="saltPercentage" placeholder="Enter salt percentage (e.g., 2)"> 
         </div>
         <div class="form-group">
             <button onclick="calculateDough()">Calculate</button>
@@ -125,9 +131,8 @@
         function validateInput() {
             const hydration = parseFloat(document.getElementById('hydration').value);
             const quantity = parseInt(document.getElementById('quantity').value);
-            const levainWeight = parseFloat(document.getElementById('levainWeight').value);
-            const levainHydration = parseFloat(document.getElementById('levainHydration').value);
-            const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value);
+            const saltPercentage = parseFloat(document.getElementById('saltPercentage').value); 
+            const flourType = document.getElementById('flourType').value;
 
             if (isNaN(hydration) || hydration < 0 || hydration > 100) {
                 alert("Hydration percentage must be between 0 and 100.");
@@ -137,16 +142,8 @@
                 alert("Number of pizzas must be a positive integer.");
                 return false;
             }
-            if (isNaN(levainWeight) || levainWeight < 0) {
-                alert("Levain weight must be non-negative.");
-                return false;
-            }
-            if (isNaN(levainHydration) || levainHydration < 0 || levainHydration > 100) {
-                alert("Levain hydration percentage must be between 0 and 100.");
-                return false;
-            }
-            if (isNaN(wholeWheatPercentage) || wholeWheatPercentage < 0 || wholeWheatPercentage > 100) {
-                alert("Whole wheat percentage must be between 0 and 100.");
+            if (isNaN(saltPercentage) || saltPercentage < 0 || saltPercentage > 10) { 
+                alert("Salt percentage must be between 0 and 10."); 
                 return false;
             }
             return true;
@@ -160,28 +157,23 @@
             const pizzaSize = document.getElementById('pizzaSize').value;
             const hydration = parseFloat(document.getElementById('hydration').value) / 100;
             const quantity = parseInt(document.getElementById('quantity').value);
-            const levainWeight = parseFloat(document.getElementById('levainWeight').value);
-            const levainHydration = parseFloat(document.getElementById('levainHydration').value) / 100;
-            const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value) / 100;
+            const saltPercentage = parseFloat(document.getElementById('saltPercentage').value) / 100;
+            const flourType = document.getElementById('flourType').value;
 
             const doughWeightPerPizza = getDoughWeight(pizzaSize); 
-            let totalDoughWeight = doughWeightPerPizza * quantity + levainWeight; 
+            const totalDoughWeight = doughWeightPerPizza * quantity; 
 
             const flour = totalDoughWeight / (1 + hydration); 
             const water = totalDoughWeight - flour;
 
-            const levainFlour = levainWeight / (1 + levainHydration); 
-            const levainWater = levainWeight - levainFlour;
-
-            const wholeWheatFlour = flour * wholeWheatPercentage;
-            const whiteFlour = flour - wholeWheatFlour;
+            const salt = totalDoughWeight * saltPercentage;
 
             document.getElementById('result').style.display = 'block';
             document.getElementById('result').innerHTML = `
                 <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
-                <p>Flour: ${flour.toFixed(2)} g (White: ${whiteFlour.toFixed(2)} g, Whole Wheat: ${wholeWheatFlour.toFixed(2)} g)</p>
+                <p>Flour: ${flour.toFixed(2)} g</p>
                 <p>Water: ${water.toFixed(2)} g</p>
-                <p>Sourdough Levain: ${levainWeight.toFixed(2)} g (Flour: ${levainFlour.toFixed(2)} g, Water: ${levainWater.toFixed(2)} g)</p>
+                <p>Salt: ${salt.toFixed(2)} g</p>
             `;
         }
 
@@ -189,9 +181,7 @@
             document.getElementById('pizzaSize').value = '';
             document.getElementById('hydration').value = '';
             document.getElementById('quantity').value = '';
-            document.getElementById('levainWeight').value = '';
-            document.getElementById('levainHydration').value = '';
-            document.getElementById('wholeWheat').value = '';
+            document.getElementById('saltPercentage').value = '';
             document.getElementById('result').style.display = 'none';
         }
     </script>
