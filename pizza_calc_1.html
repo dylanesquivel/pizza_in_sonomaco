@@ -96,8 +96,8 @@
             <input type="number" id="wholeWheat" placeholder="Enter whole wheat percentage">
         </div>
         <div class="form-group">
-            <label for="salt">Salt (grams):</label>
-            <input type="number" id="salt" placeholder="Enter salt amount">
+            <label for="salt">Salt (% of total dough weight):</label> 
+            <input type="number" id="salt" placeholder="Enter salt percentage"> 
         </div>
         <div class="form-group">
             <label for="oliveOil">Olive Oil (grams):</label>
@@ -156,7 +156,7 @@
             const quantity = parseInt(document.getElementById('quantity').value);
             const levain = parseFloat(document.getElementById('levain').value); 
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value);
-            const salt = parseFloat(document.getElementById('salt').value);
+            const saltPercentage = parseFloat(document.getElementById('salt').value); 
             const oliveOil = parseFloat(document.getElementById('oliveOil').value);
 
             if (isNaN(hydration) || hydration < 0 || hydration > 100) {
@@ -175,8 +175,8 @@
                 alert("Whole wheat percentage must be between 0 and 100.");
                 return false;
             }
-            if (isNaN(salt) || salt < 0) {
-                alert("Salt amount must be non-negative.");
+            if (isNaN(saltPercentage) || saltPercentage < 0 || saltPercentage > 10) { 
+                alert("Salt percentage must be between 0 and 10."); 
                 return false;
             }
             if (isNaN(oliveOil) || oliveOil < 0) {
@@ -204,7 +204,7 @@
             const quantity = parseInt(document.getElementById('quantity').value);
             const levain = parseFloat(document.getElementById('levain').value); 
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value) / 100;
-            const salt = parseFloat(document.getElementById('salt').value);
+            const saltPercentage = parseFloat(document.getElementById('salt').value) / 100; 
             const oliveOil = parseFloat(document.getElementById('oliveOil').value);
             const doughFormula = document.getElementById('doughFormula').value;
             const flourType = document.getElementById('flourType').value;
@@ -213,6 +213,4 @@
 
             // Basic calculations
             const radius = pizzaSizeInInches / 2;
-            const area = Math.PI * radius * radius; 
-            const doughWeightPerPizza = area * thickness; 
-            const totalDoughWeight = doughWeightPerPizza *
+            const area = Math.PI *
