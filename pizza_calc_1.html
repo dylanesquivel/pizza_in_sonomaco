@@ -88,8 +88,8 @@
             <input type="number" id="quantity" placeholder="Enter number of pizzas">
         </div>
         <div class="form-group">
-            <label for="levain">Sourdough Levain (% of flour weight):</label>
-            <input type="number" id="levain" placeholder="Enter levain percentage">
+            <label for="levain">Sourdough Levain (grams):</label> 
+            <input type="number" id="levain" placeholder="Enter levain weight">
         </div>
         <div class="form-group">
             <label for="wholeWheat">Whole Wheat Flour (% of total flour):</label>
@@ -154,7 +154,7 @@
         function validateInput() {
             const hydration = parseFloat(document.getElementById('hydration').value);
             const quantity = parseInt(document.getElementById('quantity').value);
-            const levainPercentage = parseFloat(document.getElementById('levain').value);
+            const levain = parseFloat(document.getElementById('levain').value); 
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value);
             const salt = parseFloat(document.getElementById('salt').value);
             const oliveOil = parseFloat(document.getElementById('oliveOil').value);
@@ -167,8 +167,8 @@
                 alert("Number of pizzas must be a positive integer.");
                 return false;
             }
-            if (isNaN(levainPercentage) || levainPercentage < 0 || levainPercentage > 100) {
-                alert("Levain percentage must be between 0 and 100.");
+            if (isNaN(levain) || levain < 0) { 
+                alert("Levain weight must be non-negative."); 
                 return false;
             }
             if (isNaN(wholeWheatPercentage) || wholeWheatPercentage < 0 || wholeWheatPercentage > 100) {
@@ -202,7 +202,7 @@
 
             const hydration = parseFloat(document.getElementById('hydration').value) / 100;
             const quantity = parseInt(document.getElementById('quantity').value);
-            const levainPercentage = parseFloat(document.getElementById('levain').value) / 100;
+            const levain = parseFloat(document.getElementById('levain').value); 
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value) / 100;
             const salt = parseFloat(document.getElementById('salt').value);
             const oliveOil = parseFloat(document.getElementById('oliveOil').value);
@@ -214,4 +214,5 @@
             // Basic calculations
             const radius = pizzaSizeInInches / 2;
             const area = Math.PI * radius * radius; 
-            const doughWeight
+            const doughWeightPerPizza = area * thickness; 
+            const totalDoughWeight = doughWeightPerPizza *
