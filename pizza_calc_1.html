@@ -70,6 +70,11 @@
             background: #e9ecef;
             border-radius: 5px;
         }
+        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +111,9 @@
             <button onclick="calculateDough()">Calculate</button>
             <button onclick="clearFields()">Clear</button> 
         </div>
+        <div id="loading">
+            Calculating... 
+        </div>
         <div id="result" class="result" style="display: none;"></div>
     </div>
 
@@ -132,7 +140,6 @@
             const hydration = parseFloat(document.getElementById('hydration').value);
             const quantity = parseInt(document.getElementById('quantity').value);
             const saltPercentage = parseFloat(document.getElementById('saltPercentage').value); 
-            const flourType = document.getElementById('flourType').value;
 
             if (isNaN(hydration) || hydration < 0 || hydration > 100) {
                 alert("Hydration percentage must be between 0 and 100.");
@@ -154,27 +161,34 @@
                 return;
             }
 
-            const pizzaSize = document.getElementById('pizzaSize').value;
-            const hydration = parseFloat(document.getElementById('hydration').value) / 100;
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const saltPercentage = parseFloat(document.getElementById('saltPercentage').value) / 100;
-            const flourType = document.getElementById('flourType').value;
+            // Show loading indicator
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
 
-            const doughWeightPerPizza = getDoughWeight(pizzaSize); 
-            const totalDoughWeight = doughWeightPerPizza * quantity; 
+            setTimeout(() => {
+                const pizzaSize = document.getElementById('pizzaSize').value;
+                const hydration = parseFloat(document.getElementById('hydration').value) / 100;
+                const quantity = parseInt(document.getElementById('quantity').value);
+                const saltPercentage = parseFloat(document.getElementById('saltPercentage').value) / 100;
+                const flourType = document.getElementById('flourType').value;
 
-            const flour = totalDoughWeight / (1 + hydration); 
-            const water = totalDoughWeight - flour;
+                const doughWeightPerPizza = getDoughWeight(pizzaSize); 
+                const totalDoughWeight = doughWeightPerPizza * quantity; 
 
-            const salt = totalDoughWeight * saltPercentage;
+                const flour = totalDoughWeight / (1 + hydration); 
+                const water = totalDoughWeight - flour;
 
-            document.getElementById('result').style.display = 'block';
-            document.getElementById('result').innerHTML = `
-                <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
-                <p>Flour: ${flour.toFixed(2)} g</p>
-                <p>Water: ${water.toFixed(2)} g</p>
-                <p>Salt: ${salt.toFixed(2)} g</p>
-            `;
+                const salt = totalDoughWeight * saltPercentage;
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
+                    <p>Flour: ${flour.toFixed(2)} g</p>
+                    <p>Water: ${water.toFixed(2)} g</p>
+                    <p>Salt: ${salt.toFixed(2)} g</p>
+                `;
+            }, 500); // Simulate a short delay for loading effect
         }
 
         function clearFields() {
@@ -183,6 +197,7 @@
             document.getElementById('quantity').value = '';
             document.getElementById('saltPercentage').value = '';
             document.getElementById('result').style.display = 'none';
+            document.getElementById('loading').style.display = 'none'; 
         }
     </script>
 </body>
