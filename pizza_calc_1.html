@@ -69,24 +69,28 @@
     <div class="calculator">
         <h1>Pizza Dough Calculator</h1>
         <div class="form-group">
-            <label for="pizzaSize">Pizza Size (in inches):</label>
-            <input type="number" id="pizzaSize" placeholder="Enter pizza size (e.g., 12)">
+            <label for="pizzaSize">Pizza Size (inches):</label>
+            <select id="pizzaSize">
+                <option value="12">12"</option>
+                <option value="14">14"</option>
+                <option value="16">16"</option> 
+            </select>
         </div>
         <div class="form-group">
             <label for="hydration">Dough Hydration (%):</label>
             <input type="number" id="hydration" placeholder="Enter hydration percentage (e.g., 70)">
         </div>
         <div class="form-group">
-            <label for="thickness">Dough Thickness (grams/sq inch):</label>
-            <input type="number" id="thickness" placeholder="Enter thickness">
-        </div>
-        <div class="form-group">
             <label for="quantity">Number of Pizzas:</label>
             <input type="number" id="quantity" placeholder="Enter number of pizzas">
         </div>
         <div class="form-group">
-            <label for="levain">Sourdough Levain (grams):</label> 
-            <input type="number" id="levain" placeholder="Enter levain weight">
+            <label for="levainWeight">Levain Weight (grams):</label>
+            <input type="number" id="levainWeight" placeholder="Enter levain weight in grams">
+        </div>
+        <div class="form-group">
+            <label for="levainHydration">Levain Hydration (%):</label>
+            <input type="number" id="levainHydration" placeholder="Enter levain hydration percentage (e.g., 100)">
         </div>
         <div class="form-group">
             <label for="wholeWheat">Whole Wheat Flour (% of total flour):</label>
@@ -100,32 +104,46 @@
     </div>
 
     <script>
+        function getDoughWeight(pizzaSize) {
+            let weight;
+            switch (pizzaSize) {
+                case "12": 
+                    weight = 250; 
+                    break;
+                case "14": 
+                    weight = 280; 
+                    break;
+                case "16": 
+                    weight = 330; 
+                    break;
+                default: 
+                    weight = 0; 
+            }
+            return weight;
+        }
+
         function validateInput() {
-            const pizzaSize = parseFloat(document.getElementById('pizzaSize').value);
+            const pizzaSize = document.getElementById('pizzaSize').value;
             const hydration = parseFloat(document.getElementById('hydration').value);
-            const thickness = parseFloat(document.getElementById('thickness').value);
             const quantity = parseInt(document.getElementById('quantity').value);
-            const levain = parseFloat(document.getElementById('levain').value); 
+            const levainWeight = parseFloat(document.getElementById('levainWeight').value);
+            const levainHydration = parseFloat(document.getElementById('levainHydration').value);
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value);
 
-            if (isNaN(pizzaSize) || pizzaSize <= 0) {
-                alert("Please enter a valid pizza size (greater than 0).");
-                return false;
-            }
             if (isNaN(hydration) || hydration < 0 || hydration > 100) {
                 alert("Hydration percentage must be between 0 and 100.");
                 return false;
             }
-            if (isNaN(thickness) || thickness <= 0) {
-                alert("Please enter a valid dough thickness (greater than 0).");
-                return false;
-            }
             if (isNaN(quantity) || quantity < 1) {
-                alert("Please enter a valid number of pizzas (greater than 0).");
+                alert("Number of pizzas must be a positive integer.");
                 return false;
             }
-            if (isNaN(levain) || levain < 0) {
+            if (isNaN(levainWeight) || levainWeight < 0) {
                 alert("Levain weight must be non-negative.");
+                return false;
+            }
+            if (isNaN(levainHydration) || levainHydration < 0 || levainHydration > 100) {
+                alert("Levain hydration percentage must be between 0 and 100.");
                 return false;
             }
             if (isNaN(wholeWheatPercentage) || wholeWheatPercentage < 0 || wholeWheatPercentage > 100) {
@@ -140,20 +158,24 @@
                 return;
             }
 
-            const pizzaSize = parseFloat(document.getElementById('pizzaSize').value);
+            const pizzaSize = document.getElementById('pizzaSize').value;
             const hydration = parseFloat(document.getElementById('hydration').value) / 100;
-            const thickness = parseFloat(document.getElementById('thickness').value);
             const quantity = parseInt(document.getElementById('quantity').value);
-            const levain = parseFloat(document.getElementById('levain').value); 
+            const levainWeight = parseFloat(document.getElementById('levainWeight').value);
+            const levainHydration = parseFloat(document.getElementById('levainHydration').value) / 100;
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value) / 100;
 
-            const radius = pizzaSize / 2;
-            const area = Math.PI * radius * radius; 
-            const doughWeightPerPizza = area * thickness; 
-            const totalDoughWeight = doughWeightPerPizza * quantity + levain; 
+            const doughWeightPerPizza = getDoughWeight(pizzaSize); 
+            let totalDoughWeight = doughWeightPerPizza * quantity; 
+
+            // Adjust total dough weight for levain
+            totalDoughWeight += levainWeight; 
 
             const flour = totalDoughWeight / (1 + hydration); 
             const water = totalDoughWeight - flour;
+
+            const levainFlour = levainWeight / (1 + levainHydration); 
+            const levainWater = levainWeight - levainFlour;
 
             const wholeWheatFlour = flour * wholeWheatPercentage;
             const whiteFlour = flour - wholeWheatFlour;
@@ -163,19 +185,19 @@
                 <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
                 <p>Flour: ${flour.toFixed(2)} g (White: ${whiteFlour.toFixed(2)} g, Whole Wheat: ${wholeWheatFlour.toFixed(2)} g)</p>
                 <p>Water: ${water.toFixed(2)} g</p>
-                <p>Sourdough Levain: ${levain.toFixed(2)} g</p>
+                <p>Sourdough Levain: ${levainWeight.toFixed(2)} g (Flour: ${levainFlour.toFixed(2)} g, Water: ${levainWater.toFixed(2)} g)</p>
             `;
         }
 
         function clearFields() {
             document.getElementById('pizzaSize').value = '';
             document.getElementById('hydration').value = '';
-            document.getElementById('thickness').value = '';
             document.getElementById('quantity').value = '';
-            document.getElementById('levain').value = '';
+            document.getElementById('levainWeight').value = '';
+            document.getElementById('levainHydration').value = '';
             document.getElementById('wholeWheat').value = '';
             document.getElementById('result').style.display = 'none';
         }
     </script>
 </body>
-</html>
+</html
