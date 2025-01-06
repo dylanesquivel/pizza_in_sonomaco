@@ -201,15 +201,18 @@
             // Calculate water weight
             const water = totalDoughWeight - flour;
 
+            // Account for levain in total dough weight
+            const adjustedTotalDoughWeight = totalDoughWeight + levain; 
+
             // Calculate whole wheat flour and white flour
             const wholeWheatFlour = flour * wholeWheatPercentage;
             const whiteFlour = flour - wholeWheatFlour;
 
             // Calculate salt weight
-            const salt = totalDoughWeight * saltPercentage;
+            const salt = adjustedTotalDoughWeight * saltPercentage;
 
             // Display results
             document.getElementById('result').style.display = 'block';
             document.getElementById('result').innerHTML = `
-                <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
-                <p>Flour: ${flour.toFixed(2)} g (White: ${whiteFlour.toFixed(2)} g, Whole Wheat: ${wholeWheatFlour.toFixed(
+                <p>Total Dough Weight: ${adjustedTotalDoughWeight.toFixed(2)} g</p>
+                <p>Flour: ${flour.
