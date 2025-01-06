@@ -9,25 +9,28 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: #f0f0f0; /* Light gray background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
         .calculator {
-            background: #fff;
-            padding: 30px;
+            background: url('pizza-background.jpg'); /* Replace with your pizza background image */
+            background-size: cover;
+            background-position: center;
             border-radius: 10px;
+            padding: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
+            color: #fff; /* Text color for better contrast */
         }
         .calculator h1 {
             margin-bottom: 20px;
             font-size: 24px;
             text-align: center;
+            color: #fff;
         }
         .form-group {
             margin-bottom: 15px;
@@ -36,44 +39,51 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #fff;
         }
         .form-group input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #fff;
             border-radius: 4px;
             font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background for inputs */
+            color: #fff;
         }
         .form-group select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #fff;
             border-radius: 4px;
             font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1); 
+            color: #fff;
         }
         .form-group button {
             width: 100%;
             padding: 12px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #ff9900; /* Orange button color */
+            color: #fff;
             border: none;
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
         }
         .form-group button:hover {
-            background-color: #45a049;
+            background-color: #f58220;
         }
         .result {
             margin-top: 20px;
             padding: 15px;
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
             border-radius: 5px;
+            color: #333; /* Text color for result section */
         }
         #loading {
             display: none;
             text-align: center;
             margin-top: 10px;
+            color: #fff; 
         }
     </style>
 </head>
@@ -192,24 +202,4 @@
                 const saltPercentage = parseFloat(document.getElementById('saltPercentage').value) / 100;
                 const flourType = document.getElementById('flourType').value;
 
-                const doughWeightPerPizza = getDoughWeight(pizzaSize); 
-                let totalDoughWeight = doughWeightPerPizza * quantity; 
-
-                // Adjust total dough weight for levain
-                totalDoughWeight += levainWeight; 
-
-                // Calculate flour
-                const flour = totalDoughWeight / (1 + hydration); 
-                const water = totalDoughWeight - flour;
-
-                // Calculate levain flour and water
-                const levainFlour = levainWeight / (1 + levainHydration); 
-                const levainWater = levainWeight - levainFlour;
-
-                const salt = totalDoughWeight * saltPercentage;
-
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('result').style.display = 'block';
-                document.getElementById('result').innerHTML = `
-                    <p>Total
-                    
+                const dough
