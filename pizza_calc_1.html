@@ -152,7 +152,6 @@
         }
 
         function validateInput() {
-            const pizzaSize = document.getElementById('pizzaSize').value;
             const hydration = parseFloat(document.getElementById('hydration').value);
             const quantity = parseInt(document.getElementById('quantity').value);
             const levainPercentage = parseFloat(document.getElementById('levain').value);
@@ -201,7 +200,7 @@
                 pizzaSizeInInches = pizzaSize; 
             }
 
-            const hydration = parseFloat(document.getElementById('hydration').value);
+            const hydration = parseFloat(document.getElementById('hydration').value) / 100;
             const quantity = parseInt(document.getElementById('quantity').value);
             const levainPercentage = parseFloat(document.getElementById('levain').value) / 100;
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value) / 100;
@@ -214,4 +213,5 @@
 
             // Basic calculations
             const radius = pizzaSizeInInches / 2;
-            const area = Math.PI *
+            const area = Math.PI * radius * radius; 
+            const doughWeight
