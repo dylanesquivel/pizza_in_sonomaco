@@ -77,7 +77,7 @@
             <input type="number" id="hydration" placeholder="Enter hydration percentage">
         </div>
         <div class="form-group">
-            <label for="thickness">Dough Thickness (oz/sq inch):</label>
+            <label for="thickness">Dough Thickness (g/sq inch):</label>
             <input type="number" id="thickness" placeholder="Enter thickness">
         </div>
         <div class="form-group">
@@ -114,7 +114,7 @@
 
             const radius = pizzaSize / 2;
             const area = Math.PI * radius * radius; // Area in square inches
-            const doughWeightPerPizza = area * thickness; // Weight in ounces
+            const doughWeightPerPizza = area * thickness; // Weight in grams
             const totalDoughWeight = doughWeightPerPizza * quantity;
 
             const flour = totalDoughWeight / (1 + hydration / 100);
@@ -128,10 +128,10 @@
 
             document.getElementById('result').style.display = 'block';
             document.getElementById('result').innerHTML = `
-                <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} oz</p>
-                <p>Flour: ${adjustedFlour.toFixed(2)} oz (White: ${whiteFlour.toFixed(2)} oz, Whole Wheat: ${wholeWheatFlour.toFixed(2)} oz)</p>
-                <p>Water: ${adjustedWater.toFixed(2)} oz</p>
-                <p>Sourdough Levain: ${levain.toFixed(2)} oz</p>
+                <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
+                <p>Flour: ${adjustedFlour.toFixed(2)} g (White: ${whiteFlour.toFixed(2)} g, Whole Wheat: ${wholeWheatFlour.toFixed(2)} g)</p>
+                <p>Water: ${adjustedWater.toFixed(2)} g</p>
+                <p>Sourdough Levain: ${levain.toFixed(2)} g</p>
             `;
         }
     </script>
