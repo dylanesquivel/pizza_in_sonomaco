@@ -17,38 +17,42 @@
 
         .calculator {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            color: #333;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
+            color: #555;
         }
 
         input[type="number"],
         select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; 
         }
 
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 3px;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease; 
         }
 
         button:hover {
@@ -56,11 +60,11 @@
         }
 
         #result {
-            margin-top: 20px;
+            margin-top: 25px;
             padding: 15px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -208,9 +212,3 @@
             const oliveOil = parseFloat(document.getElementById('oliveOil').value);
             const doughFormula = document.getElementById('doughFormula').value;
             const flourType = document.getElementById('flourType').value;
-
-            const thickness = getDoughThickness(pizzaSizeInInches, pizzaSizeUnits); 
-
-            // Basic calculations
-            const radius = pizzaSizeInInches / 2;
-            const area = Math.PI *
