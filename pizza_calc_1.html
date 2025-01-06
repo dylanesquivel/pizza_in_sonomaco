@@ -123,7 +123,6 @@
         }
 
         function validateInput() {
-            const pizzaSize = document.getElementById('pizzaSize').value;
             const hydration = parseFloat(document.getElementById('hydration').value);
             const quantity = parseInt(document.getElementById('quantity').value);
             const levainWeight = parseFloat(document.getElementById('levainWeight').value);
@@ -166,10 +165,7 @@
             const wholeWheatPercentage = parseFloat(document.getElementById('wholeWheat').value) / 100;
 
             const doughWeightPerPizza = getDoughWeight(pizzaSize); 
-            let totalDoughWeight = doughWeightPerPizza * quantity; 
-
-            // Adjust total dough weight for levain
-            totalDoughWeight += levainWeight; 
+            let totalDoughWeight = doughWeightPerPizza * quantity + levainWeight; 
 
             const flour = totalDoughWeight / (1 + hydration); 
             const water = totalDoughWeight - flour;
@@ -200,4 +196,4 @@
         }
     </script>
 </body>
-</html
+</html>
