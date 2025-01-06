@@ -78,10 +78,6 @@
                 <option value="14in">14"</option>
                 <option value="16in">16"</option>
             </select>
-            <select id="pizzaSizeUnits">
-                <option value="in">in</option>
-                <option value="cm">cm</option>
-            </select>
         </div>
         <div class="form-group">
             <label for="hydration">Dough Hydration (%):</label>
@@ -128,31 +124,22 @@
     </div>
 
     <script>
-        function getDoughThickness(pizzaSize, units) {
-            let thickness;
+        function getDoughWeight(pizzaSize) {
+            let weight;
             switch (pizzaSize) {
                 case "12in": 
-                    thickness = 250; 
+                    weight = 250; 
                     break;
                 case "14in": 
-                    thickness = 290; 
+                    weight = 280; 
                     break;
                 case "16in": 
-                    thickness = 330; 
-                    break;
-                case "30.48cm": // 12 inches in centimeters
-                    thickness = 250; 
-                    break;
-                case "35.56cm": // 14 inches in centimeters
-                    thickness = 290; 
-                    break;
-                case "40.64cm": // 16 inches in centimeters
-                    thickness = 330; 
+                    weight = 330; 
                     break;
                 default: 
-                    thickness = 0; 
+                    weight = 0; 
             }
-            return thickness;
+            return weight;
         }
 
         function validateInput() {
@@ -196,14 +183,6 @@
             }
 
             const pizzaSize = document.getElementById('pizzaSize').value;
-            const pizzaSizeUnits = document.getElementById('pizzaSizeUnits').value;
-            let pizzaSizeInInches;
-            if (pizzaSizeUnits === "cm") {
-                pizzaSizeInInches = pizzaSize / 2.54; // Convert centimeters to inches
-            } else {
-                pizzaSizeInInches = pizzaSize; 
-            }
-
             const hydration = parseFloat(document.getElementById('hydration').value) / 100;
             const quantity = parseInt(document.getElementById('quantity').value);
             const levain = parseFloat(document.getElementById('levain').value); 
@@ -212,3 +191,18 @@
             const oliveOil = parseFloat(document.getElementById('oliveOil').value);
             const doughFormula = document.getElementById('doughFormula').value;
             const flourType = document.getElementById('flourType').value;
+
+            const doughWeightPerPizza = getDoughWeight(pizzaSize); 
+            const totalDoughWeight = doughWeightPerPizza * quantity; 
+
+            // ... (Rest of the calculations)
+
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').innerHTML = `
+                <p>Total Dough Weight: ${totalDoughWeight.toFixed(2)} g</p>
+                <p>Flour: ${adjustedFlour.toFixed(2)} g (White: ${whiteFlour.toFixed(2)} g, Whole Wheat: ${wholeWheatFlour.toFixed(2)} g)</p>
+                <p>Water: ${adjustedWater.toFixed(2)} g</p>
+                <p>Sourdough Levain: ${levain.toFixed(2)} g</p>
+                <p>Salt: ${salt.toFixed(2)} g</p>
+                <p>Olive Oil: ${oliveOil} g</p>
+            `;
